@@ -9,9 +9,9 @@
    Multi-Cloud Management Dashboard
 
 
-================================================================================
+
                           PROJECT FEATURES
-================================================================================
+
 
 ✓ Add, Edit, Delete Cloud Providers (AWS, Azure, GCP)
 ✓ Start/Stop Virtual Machines
@@ -33,9 +33,9 @@
 ✓ Loading Spinners
 ✓ Responsive Design
 
-================================================================================
+
                           TECHNOLOGY STACK
-================================================================================
+
 
 Backend:   Spring Boot (Java)
 Database:  MySQL
@@ -45,9 +45,9 @@ PDF Export: html2pdf.js
 Build Tool: Maven
 Version Control: Git & GitHub
 
-================================================================================
+
                           API ENDPOINTS
-================================================================================
+
 
 GET    /api/clouds            - Get all clouds
 GET    /api/clouds/{id}       - Get cloud by ID
@@ -62,4 +62,4 @@ DELETE /api/clouds/all        - Delete all clouds
 GET    /api/clouds/analytics  - Get analytics
 GET    /api/clouds/export     - Export CSV
 
-================================================================================
+
