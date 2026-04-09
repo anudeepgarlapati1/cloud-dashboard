@@ -1,65 +1,67 @@
+# ☁️ Multi-Cloud Management Dashboard
 
+A comprehensive web application to manage and monitor multiple cloud providers (AWS, Azure, GCP) from a single dashboard. Built with Spring Boot, MongoDB, and modern web technologies.
 
-1. LIVE PROJECT LINK
-   http://localhost:8080 (Local Development)
-   
+## 🚀 Live Demo
 
+[View Live Dashboard](#) *(Add your Render/Railway URL here)*
 
-2. PROJECT TITLE
-   Multi-Cloud Management Dashboard
+## 📋 Table of Contents
 
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Project Structure](#-project-structure)
+- [Prerequisites](#-prerequisites)
+- [Installation & Setup](#-installation--setup)
+- [API Endpoints](#-api-endpoints)
+- [Database Configuration](#-database-configuration)
+- [Deployment](#-deployment)
+- [Screenshots](#-screenshots)
+- [Team](#-team)
+- [License](#-license)
 
+## ✨ Features
 
-                          PROJECT FEATURES
+### Core Functionality
+- ✅ Add, Edit, Delete Cloud Providers
+- ✅ Start/Stop Virtual Machines
+- ✅ Add Storage to Clouds
+- ✅ Reset Cloud Configuration
+- ✅ Real-time Database Updates
 
+### Analytics & Insights
+- 📊 Total Cost & Storage Analytics
+- 🏆 Highest Cost Cloud Identification
+- 📈 Average Cost Calculation
+- ⭐ Cost Efficiency Rating (Storage per Dollar)
 
-✓ Add, Edit, Delete Cloud Providers (AWS, Azure, GCP)
-✓ Start/Stop Virtual Machines
-✓ Add Storage to Clouds
-✓ Reset Cloud Configuration
-✓ Real-time Database Updates (MySQL)
-✓ Cost & Storage Analytics Dashboard
-✓ Bar Chart - Cost Comparison
-✓ Pie Chart - Storage Distribution
-✓ Search & Filter Clouds
-✓ Sort by Cost/Storage/Name
-✓ Dark/Light Mode Toggle
-✓ Export Data as CSV
-✓ Export Dashboard as PDF
-✓ Cost Efficiency Rating (Storage per Dollar)
-✓ VM Status Summary (Running/Stopped)
-✓ Last Updated Timestamp
-✓ Confirmation Dialogs for Safety
-✓ Loading Spinners
-✓ Responsive Design
+### Data Visualization
+- 💰 Cost Comparison Bar Chart
+- 🥧 Storage Distribution Pie Chart
+- 📊 VM Status Distribution Chart
+- 🔄 Auto-refreshing Charts
 
+### Advanced Features
+- 🔍 Search & Filter Clouds by Name/Provider
+- 📊 Sort by Cost, Storage, or Name
+- 🌙 Dark/Light Mode Toggle
+- 📄 Export Data as CSV
+- 📑 Export Dashboard as PDF
+- 🕐 Last Updated Timestamp
+- ⚠️ Confirmation Dialogs for Safety
+- 🔄 Loading Spinners
+- 💡 Tooltips for Better UX
 
-                          TECHNOLOGY STACK
+## 🛠 Technology Stack
 
-
-Backend:   Spring Boot (Java)
-Database:  MySQL
-Frontend:  HTML, CSS, JavaScript
-Charts:    Chart.js
-PDF Export: html2pdf.js
-Build Tool: Maven
-Version Control: Git & GitHub
-
-
-                          API ENDPOINTS
-
-
-GET    /api/clouds            - Get all clouds
-GET    /api/clouds/{id}       - Get cloud by ID
-POST   /api/clouds            - Add new cloud
-PUT    /api/clouds/{id}       - Update cloud
-PUT    /api/clouds/{id}/start - Start VM
-PUT    /api/clouds/{id}/stop  - Stop VM
-PUT    /api/clouds/{id}/storage/{gb} - Add storage
-PUT    /api/clouds/{id}/reset - Reset cloud
-DELETE /api/clouds/{id}       - Delete cloud
-DELETE /api/clouds/all        - Delete all clouds
-GET    /api/clouds/analytics  - Get analytics
-GET    /api/clouds/export     - Export CSV
-
+| Layer | Technology |
+|-------|------------|
+| **Backend** | Spring Boot (Java 11) |
+| **Database** | MongoDB |
+| **Frontend** | HTML5, CSS3, JavaScript |
+| **Charts** | Chart.js |
+| **PDF Export** | html2pdf.js |
+| **Icons** | Font Awesome |
+| **Build Tool** | Maven |
+| **Version Control** | Git & GitHub |
 
