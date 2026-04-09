@@ -81,7 +81,6 @@
         .btn-delete { background: #dc3545; color: white; padding: 5px 10px; font-size: 11px; }
         .hidden { display: none !important; }
         
-        /* Modal Styles - FIXED */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -183,7 +182,10 @@
             <div class="form-group">
                 <input type="text" id="name" placeholder="Cloud Name">
                 <input type="text" id="provider" placeholder="Provider (AWS/Azure/GCP)">
-                <select id="status"><option value="stopped">Stopped</option><option value="running">Running</option></select>
+                <select id="status">
+                    <option value="STOPPED">Stopped</option>
+                    <option value="RUNNING">Running</option>
+                </select>
                 <input type="number" id="storage" placeholder="Storage (GB)">
                 <input type="number" id="cost" placeholder="Cost ($)">
                 <input type="text" id="region" placeholder="Region">
@@ -217,11 +219,14 @@
             <div class="form-group">
                 <input type="text" id="edit_name" placeholder="Cloud Name">
                 <input type="text" id="edit_provider" placeholder="Provider">
-                <select id="edit_status"><option value="stopped">Stopped</option><option value="running">Running</option></select>
+                <select id="edit_status">
+                    <option value="STOPPED">Stopped</option>
+                    <option value="RUNNING">Running</option>
+                </select>
                 <input type="number" id="edit_storage" placeholder="Storage (GB)">
                 <input type="number" id="edit_cost" placeholder="Cost ($)">
             </div>
-            <div style="margin-top:20px; display:flex; gap:10px">
+            <div style="margin-top:20px; display:flex; gap:10px;">
                 <button class="btn-add" onclick="saveEdit()">Save Changes</button>
                 <button class="btn-refresh" onclick="closeEditModal()">Cancel</button>
             </div>
@@ -288,9 +293,10 @@
             document.getElementById('lastUpdated').innerHTML = `Last updated: ${now.toLocaleTimeString()}`;
         }
 
+        // FIXED: Status count with UPPERCASE
         function updateStatusSummary(clouds) {
-            const running = clouds.filter(c => c.vmStatus === 'running').length;
-            const stopped = clouds.filter(c => c.vmStatus === 'stopped').length;
+            const running = clouds.filter(c => c.vmStatus === 'RUNNING').length;
+            const stopped = clouds.filter(c => c.vmStatus === 'STOPPED').length;
             document.getElementById('runningCount').innerHTML = running;
             document.getElementById('stoppedCount').innerHTML = stopped;
         }
@@ -314,37 +320,65 @@
             } catch (error) {}
         }
 
+        // FIXED: displayClouds function with proper status handling
         function displayClouds(clouds) {
             const grid = document.getElementById('cloudsGrid');
+
             if (!clouds || clouds.length === 0) {
                 grid.innerHTML = '<div style="text-align:center; padding:50px">No clouds found</div>';
                 return;
             }
+
             grid.innerHTML = clouds.map(cloud => {
                 const efficiency = (cloud.storageGb / (cloud.cost + 0.01)).toFixed(1);
+
                 return `<div class="cloud-card">
-                    <div class="cloud-header"><span class="cloud-name"><i class="fas fa-cloud"></i> ${cloud.name}</span><span class="provider-badge provider-${cloud.provider}">${cloud.provider}</span></div>
-                    <div class="cloud-info"><span><i class="fas fa-power-off"></i> Status</span><span class="status-${cloud.vmStatus}">${cloud.vmStatus}</span></div>
-                    <div class="cloud-info"><span><i class="fas fa-hdd"></i> Storage</span><span>${cloud.storageGb} GB</span></div>
-                    <div class="cloud-info"><span><i class="fas fa-dollar-sign"></i> Cost</span><span><strong>$${cloud.cost}</strong></span></div>
-                    <div class="cloud-info"><span><i class="fas fa-chart-line"></i> Efficiency</span><span class="efficiency-badge">${efficiency} GB/$</span></div>
+                    <div class="cloud-header">
+                        <span class="cloud-name"><i class="fas fa-cloud"></i> ${cloud.name}</span>
+                        <span class="provider-badge provider-${cloud.provider}">${cloud.provider}</span>
+                    </div>
+
+                    <div class="cloud-info">
+                        <span>Status</span>
+                        <span class="status-${cloud.vmStatus.toLowerCase()}">${cloud.vmStatus}</span>
+                    </div>
+
+                    <div class="cloud-info">
+                        <span>Storage</span>
+                        <span>${cloud.storageGb} GB</span>
+                    </div>
+
+                    <div class="cloud-info">
+                        <span>Cost</span>
+                        <span>$${cloud.cost}</span>
+                    </div>
+
+                    <div class="cloud-info">
+                        <span>Efficiency</span>
+                        <span class="efficiency-badge">${efficiency} GB/$</span>
+                    </div>
+
                     <div class="button-group">
-                        ${cloud.vmStatus === 'stopped' ? `<button class="btn-start" onclick="startVM(${cloud.id})"><i class="fas fa-play"></i> Start</button>` : `<button class="btn-stop" onclick="stopVM(${cloud.id})"><i class="fas fa-stop"></i> Stop</button>`}
-                        <button class="btn-storage" onclick="addStorage(${cloud.id})"><i class="fas fa-plus"></i> Storage</button>
-                        <button class="btn-edit" onclick="openEditModal(${cloud.id})"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn-reset" onclick="if(confirm('Reset this cloud?')) fetch('${API_URL}/${cloud.id}/reset',{method:'PUT'}).then(()=>fetchClouds())"><i class="fas fa-sync"></i> Reset</button>
-                        <button class="btn-delete" onclick="if(confirm('Delete this cloud?')) fetch('${API_URL}/${cloud.id}',{method:'DELETE'}).then(()=>fetchClouds())"><i class="fas fa-trash"></i> Delete</button>
+                        ${cloud.vmStatus === 'STOPPED'
+                            ? `<button class="btn-start" onclick="startVM('${cloud.id}')">Start</button>`
+                            : `<button class="btn-stop" onclick="stopVM('${cloud.id}')">Stop</button>`
+                        }
+                        <button class="btn-storage" onclick="addStorage('${cloud.id}')">+ Storage</button>
+                        <button class="btn-edit" onclick="openEditModal('${cloud.id}')">Edit</button>
+                        <button class="btn-reset" onclick="if(confirm('Reset this cloud?')) fetch('${API_URL}/${cloud.id}/reset',{method:'PUT'}).then(()=>fetchClouds())">Reset</button>
+                        <button class="btn-delete" onclick="if(confirm('Delete this cloud?')) fetch('${API_URL}/${cloud.id}',{method:'DELETE'}).then(()=>fetchClouds())">Delete</button>
                     </div>
                 </div>`;
             }).join('');
         }
 
+        // FIXED: updateCharts with UPPERCASE status
         function updateCharts(clouds) {
             if (!clouds || clouds.length === 0) return;
             const names = clouds.map(c => c.name);
             const costs = clouds.map(c => c.cost);
-            const running = clouds.filter(c => c.vmStatus === 'running').length;
-            const stopped = clouds.filter(c => c.vmStatus === 'stopped').length;
+            const running = clouds.filter(c => c.vmStatus === 'RUNNING').length;
+            const stopped = clouds.filter(c => c.vmStatus === 'STOPPED').length;
             const costCtx = document.getElementById('costChart').getContext('2d');
             if (costChart) costChart.destroy();
             costChart = new Chart(costCtx, { type: 'bar', data: { labels: names, datasets: [{ label: 'Cost ($)', data: costs, backgroundColor: 'rgba(102, 126, 234, 0.8)' }] }, options: { responsive: true } });
@@ -391,7 +425,7 @@
             });
         }
 
-        // CLOSE EDIT MODAL - FIXED
+        // CLOSE EDIT MODAL
         function closeEditModal() {
             const modal = document.getElementById('editModal');
             modal.style.display = 'none';
